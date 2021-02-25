@@ -17,15 +17,21 @@ public static void convertToWords(String filename){
         while(fileScanner.hasNextLine()) {
             String line = fileScanner.nextLine();
             Scanner lineScanner  = new Scanner(line);
+            boolean valid = false;
             while (lineScanner.hasNext()) {
 
 //                long number = Long.parseLong(line.replaceAll("\\D+", ""));
-                if (lineScanner.hasNextLong())
+                if (lineScanner.hasNextLong()) {
                     System.out.println(getWord(lineScanner.nextLong()));
+                    valid = true;
+                }
 
                     lineScanner.next();
 
             }
+            if(!valid)
+                System.out.println("number invalid");
+
             lineScanner.close();
         }
 
