@@ -22,11 +22,20 @@ public static void convertToWords(String filename){
 
 //                long number = Long.parseLong(line.replaceAll("\\D+", ""));
                 if (lineScanner.hasNextLong()) {
-                    System.out.println(getWord(lineScanner.nextLong()));
-                    valid = true;
+                    long input = lineScanner.nextLong();
+
+                    String next = lineScanner.next();
+                    if(!next.matches(".*\\d.*")) {
+                        System.out.println(getWord(input));
+                        valid = true;
+                        break;
+                    }else{
+                        valid = false;
+                    }
                 }
 
-                    lineScanner.next();
+
+                   lineScanner.next();
 
             }
             if(!valid)
