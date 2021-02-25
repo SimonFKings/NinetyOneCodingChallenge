@@ -1,8 +1,13 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class NinetyOne {
 
 
     public static void main(String[] args) {
-        System.out.println(convert(50));
+    convertToWords("input.txt");
+
     }
 
     public static final String[] units = {
@@ -12,19 +17,34 @@ public class NinetyOne {
     };
 
     public static final String[] tens = {
-            "",        // 0
-            "",        // 1
-            "twenty",  // 2
-            "thirty",  // 3
-            "forty",   // 4
-            "fifty",   // 5
-            "sixty",   // 6
-            "seventy", // 7
-            "eighty",  // 8
-            "ninety"   // 9
+            "",
+            "",
+            "twenty",
+            "thirty",
+            "forty",
+            "fifty",
+            "sixty",
+            "seventy",
+            "eighty",
+            "ninety"
     };
+public static void convertToWords(String filename){
+    try {
+        Scanner scanner = new Scanner(new File(filename));
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
 
-    public static String convert(final int n) {
+            int number = Integer.parseInt(line.replaceAll("\\D+",""));
+
+
+            System.out.println(getWord(number));
+        }
+        scanner.close();
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    }
+}
+    public static String getWord(final int n) {
 //        if (n < 0) {
 //            return "minus " + convert(-n);
 //        }
@@ -38,17 +58,17 @@ public class NinetyOne {
         }
 
         if (n < 1000) {
-            return units[n / 100] + " hundred" + ((n % 100 != 0) ? " " : "") + convert(n % 100);
+            return units[n / 100] + " hundred" + ((n % 100 != 0) ? " " : "") + getWord(n % 100);
         }
 
         if (n < 1000000) {
-            return convert(n / 1000) + " thousand" + ((n % 1000 != 0) ? " " : "") + convert(n % 1000);
+            return getWord(n / 1000) + " thousand" + ((n % 1000 != 0) ? " " : "") + getWord(n % 1000);
         }
 
         if (n < 1000000000) {
-            return convert(n / 1000000) + " million" + ((n % 1000000 != 0) ? " " : "") + convert(n % 1000000);
+            return getWord(n / 1000000) + " million" + ((n % 1000000 != 0) ? " " : "") + getWord(n % 1000000);
         }
 
-        return convert(n / 1000000000) + " billion"  + ((n % 1000000000 != 0) ? " " : "") + convert(n % 1000000000);
+        return getWord(n / 1000000000) + " billion"  + ((n % 1000000000 != 0) ? " " : "") + getWord(n % 1000000000);
     }
 }
