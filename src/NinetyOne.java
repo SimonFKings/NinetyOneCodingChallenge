@@ -10,55 +10,60 @@ public class NinetyOne {
 
     }
 
-    public static final String[] units = {
-            "", "one", "two", "three", "four", "five", "six", "seven",
-            "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen",
-            "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"
-    };
 
-    public static final String[] tens = {
-            "",
-            "",
-            "twenty",
-            "thirty",
-            "forty",
-            "fifty",
-            "sixty",
-            "seventy",
-            "eighty",
-            "ninety"
-    };
 public static void convertToWords(String filename){
     try {
-        Scanner scanner = new Scanner(new File(filename));
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
+        Scanner fileScanner = new Scanner(new File(filename));
+        while(fileScanner.hasNextLine()) {
+            String line = fileScanner.nextLine();
+            Scanner lineScanner  = new Scanner(line);
+            while (lineScanner.hasNext()) {
 
-            int number = Integer.parseInt(line.replaceAll("\\D+",""));
+//                long number = Long.parseLong(line.replaceAll("\\D+", ""));
+                if (lineScanner.hasNextLong())
+                    System.out.println(getWord(lineScanner.nextLong()));
 
+                    lineScanner.next();
 
-            System.out.println(getWord(number));
+            }
+            lineScanner.close();
         }
-        scanner.close();
+
+        fileScanner.close();
     } catch (FileNotFoundException e) {
         e.printStackTrace();
     }
 }
-    public static String getWord(final int n) {
-//        if (n < 0) {
-//            return "minus " + convert(-n);
-//        }
+    public static String getWord( long n) {
+      String[] units = {
+                "", "one", "two", "three", "four", "five", "six", "seven",
+                "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen",
+                "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"
+        };
+
+        String[] tens = {
+                "",
+                "",
+                "twenty",
+                "thirty",
+                "forty",
+                "fifty",
+                "sixty",
+                "seventy",
+                "eighty",
+                "ninety"
+        };
 
         if (n < 20) {
-            return units[n];
+            return units[(int) n];
         }
 
         if (n < 100) {
-            return tens[n / 10] + ((n % 10 != 0) ? " " : "") + units[n % 10];
+            return tens[(int) (n / 10)] + ((n % 10 != 0) ? " " : "") + units[(int) (n % 10)];
         }
 
         if (n < 1000) {
-            return units[n / 100] + " hundred" + ((n % 100 != 0) ? " " : "") + getWord(n % 100);
+            return units[(int) (n / 100)] + " hundred" + ((n % 100 != 0) ? " " : "") + getWord(n % 100);
         }
 
         if (n < 1000000) {
