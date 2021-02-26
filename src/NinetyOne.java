@@ -74,21 +74,43 @@ public static void convertToWords(String filename){
         }
 
         if (n < 100) {
-            return tens[(int) (n / 10)] + ((n % 10 != 0) ? " " : "") + units[(int) (n % 10)];
+            return tens[(int) (n / 10)] + ((n % 10 != 0) ? "-" : "") + units[(int) (n % 10)];
         }
 
         if (n < 1000) {
-            return units[(int) (n / 100)] + " hundred" + ((n % 100 != 0) ? " " : "") + getWord(n % 100);
+            return units[(int) (n / 100)] + " hundred" + ((n % 100 != 0) ? " and " : "") + getWord(n % 100);
         }
 
         if (n < 1000000) {
-            return getWord(n / 1000) + " thousand" + ((n % 1000 != 0) ? " " : "") + getWord(n % 1000);
+            String result = getWord(n / 1000) + " thousand" ;
+            if(getWord(n % 1000).contains("and")){
+                result = result + ", " + getWord(n % 1000);
+            }else
+                result = result + " and " +getWord(n%1000);
+            return  result;
+
         }
 
         if (n < 1000000000) {
-            return getWord(n / 1000000) + " million" + ((n % 1000000 != 0) ? " " : "") + getWord(n % 1000000);
+            String result = getWord(n / 1000000) + " million";
+
+            if(getWord(n % 1000000).contains("and"))
+                result = result + ", " + getWord(n % 1000000);
+            else
+                result = result + " and " + getWord(n % 1000000);
+            return result;
+
+//            return getWord(n / 1000000) + " million" + ((n % 1000000 != 0) ? " " : "") + getWord(n % 1000000);
         }
 
-        return getWord(n / 1000000000) + " billion"  + ((n % 1000000000 != 0) ? " " : "") + getWord(n % 1000000000);
+
+        String result = getWord(n / 1000000000) + " billion";
+        if(getWord(n % 1000000000).contains("and"))
+            result = result + ", " + getWord(n % 1000000000);
+        else
+            result = result + " and " + getWord(n % 1000000000);
+
+        return result;
+              //  + ((n % 1000000000 != 0) ? " " : "") + getWord(n % 1000000000);
     }
 }
